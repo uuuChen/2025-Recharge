@@ -57,10 +57,6 @@ func main() {
 
 					var respMsg messaging_api.MessageInterface
 					switch message.Text {
-					case "/文字":
-						respMsg = messaging_api.TextMessage{
-							Text: message.Text,
-						}
 					case "/貼圖":
 						respMsg = messaging_api.StickerMessage{
 							PackageId: "6632",
@@ -70,6 +66,10 @@ func main() {
 						respMsg = messaging_api.ImageMessage{
 							OriginalContentUrl: "https://example.com/image.jpg",
 							PreviewImageUrl:    "https://example.com/image.jpg",
+						}
+					default:
+						respMsg = messaging_api.TextMessage{
+							Text: message.Text,
 						}
 					}
 					_, err := bot.ReplyMessage(&messaging_api.ReplyMessageRequest{
