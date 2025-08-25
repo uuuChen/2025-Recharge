@@ -64,8 +64,20 @@ func main() {
 						}
 					case "/圖片":
 						respMsg = messaging_api.ImageMessage{
-							OriginalContentUrl: "https://example.com/image.jpg",
-							PreviewImageUrl:    "https://example.com/image.jpg",
+							OriginalContentUrl: "https://leo-recharge.s3.ap-southeast-2.amazonaws.com/public/1.jpeg",
+							PreviewImageUrl:    "https://leo-recharge.s3.ap-southeast-2.amazonaws.com/public/1.jpeg",
+						}
+					case "/影片":
+						respMsg = messaging_api.VideoMessage{
+							OriginalContentUrl: "https://leo-recharge.s3.ap-southeast-2.amazonaws.com/public/video1.mp4",
+							PreviewImageUrl:    "https://leo-recharge.s3.ap-southeast-2.amazonaws.com/public/video1-thumbnail.png",
+						}
+					case "/位置":
+						respMsg = messaging_api.LocationMessage{
+							Title:     "cyberlink",
+							Address:   "新北市新店區民權路100號16樓",
+							Latitude:  24.983348636569882,
+							Longitude: 121.53610649999997,
 						}
 					default:
 						respMsg = messaging_api.TextMessage{
