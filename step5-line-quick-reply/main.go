@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
 	"log"
 	"net/http"
@@ -16,15 +17,22 @@ import (
 func buildQuickReply() *messaging_api.QuickReply {
 	return &messaging_api.QuickReply{
 		Items: []messaging_api.QuickReplyItem{
-			{Type: "action", Action: messaging_api.MessageAction{Label: "貼圖", Text: "/貼圖"}},
-			{Type: "action", Action: messaging_api.MessageAction{Label: "圖片", Text: "/圖片"}},
-			{Type: "action", Action: messaging_api.MessageAction{Label: "影片", Text: "/影片"}},
-			{Type: "action", Action: messaging_api.MessageAction{Label: "位置", Text: "/位置"}},
+			// 文字訊息 action
+			{Action: messaging_api.MessageAction{Label: "貼圖", Text: "/貼圖"}},
+			{Action: messaging_api.MessageAction{Label: "圖片", Text: "/圖片"}},
+			{Action: messaging_api.MessageAction{Label: "影片", Text: "/影片"}},
+			{Action: messaging_api.MessageAction{Label: "位置", Text: "/位置"}},
+
+			// URI action
+			{Action: messaging_api.UriAction{Label: "開 MYEDIT", Uri: "https://myedit.online/"}},
+
+			// DatetimePicker action
+			{Action: messaging_api.DatetimePickerAction{Label: "選日期時間", Data: "2025-01-01", Mode: "datetime"}},
 
 			// 只有 quick-reply 可以用的 action
-			{Type: "action", Action: messaging_api.CameraAction{Label: "開相機"}},
-			{Type: "action", Action: messaging_api.CameraRollAction{Label: "相簿"}},
-			{Type: "action", Action: messaging_api.LocationAction{Label: "傳位置"}},
+			{Action: messaging_api.CameraAction{Label: "開相機"}},
+			{Action: messaging_api.CameraRollAction{Label: "開相簿"}},
+			{Action: messaging_api.LocationAction{Label: "傳位置"}},
 		},
 	}
 }
@@ -131,6 +139,9 @@ func main() {
 						log.Printf("Error replying message: %v", err)
 					}
 				}
+			case webhook.PostbackEvent:
+				formattedEvent, _ := json.MarshalIndent(e, "", "  ")
+				log.Printf("[Postback] %+v", string(formattedEvent))
 			}
 		}
 	})
