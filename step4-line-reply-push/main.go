@@ -86,7 +86,7 @@ func main() {
 					}
 					_, err := bot.ReplyMessage(&messaging_api.ReplyMessageRequest{
 						ReplyToken: e.ReplyToken,
-						Messages: []messaging_api.MessageInterface{
+						Messages: []messaging_api.MessageInterface{ // 最多 5 則
 							respMsg,
 						},
 					})
