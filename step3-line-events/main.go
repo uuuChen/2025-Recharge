@@ -44,9 +44,9 @@ func main() {
 
 				var userID, groupID string
 				switch source := e.Source.(type) {
-				case webhook.UserSource:
+				case webhook.UserSource: // 來自個人聊天室
 					userID = source.UserId
-				case webhook.GroupSource:
+				case webhook.GroupSource: // 來自群組聊天室
 					userID = source.UserId
 					groupID = source.GroupId
 				}
