@@ -82,6 +82,7 @@ func main() {
 					default:
 						respMsg = messaging_api.TextMessage{
 							Text: message.Text,
+							// QuoteToken: message.QuoteToken,
 						}
 					}
 					_, err := bot.ReplyMessage(&messaging_api.ReplyMessageRequest{
