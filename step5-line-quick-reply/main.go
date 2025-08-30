@@ -16,7 +16,7 @@ import (
 // 設定 quick reply
 func buildQuickReply() *messaging_api.QuickReply {
 	return &messaging_api.QuickReply{
-		Items: []messaging_api.QuickReplyItem{
+		Items: []messaging_api.QuickReplyItem{ // quick reply 最多 13 個
 			// 文字訊息 action
 			{Action: messaging_api.MessageAction{Label: "貼圖", Text: "/貼圖"}},
 			{Action: messaging_api.MessageAction{Label: "圖片", Text: "/圖片"}},
@@ -86,19 +86,19 @@ func main() {
 						respMsg = messaging_api.StickerMessage{
 							PackageId:  "6632",
 							StickerId:  "11825375",
-							QuickReply: buildQuickReply(),
+							QuickReply: buildQuickReply(), // quick reply
 						}
 					case "/圖片":
 						respMsg = messaging_api.ImageMessage{
 							OriginalContentUrl: "https://leo-recharge.s3.ap-southeast-2.amazonaws.com/public/1.jpeg",
 							PreviewImageUrl:    "https://leo-recharge.s3.ap-southeast-2.amazonaws.com/public/1.jpeg",
-							QuickReply:         buildQuickReply(),
+							QuickReply:         buildQuickReply(), // quick reply
 						}
 					case "/影片":
 						respMsg = messaging_api.VideoMessage{
 							OriginalContentUrl: "https://leo-recharge.s3.ap-southeast-2.amazonaws.com/public/video1.mp4",
 							PreviewImageUrl:    "https://leo-recharge.s3.ap-southeast-2.amazonaws.com/public/video1-thumbnail.png",
-							QuickReply:         buildQuickReply(),
+							QuickReply:         buildQuickReply(), // quick reply
 						}
 					case "/位置":
 						respMsg = messaging_api.LocationMessage{
@@ -106,12 +106,12 @@ func main() {
 							Address:    "新北市新店區民權路100號16樓",
 							Latitude:   24.983348636569882,
 							Longitude:  121.53610649999997,
-							QuickReply: buildQuickReply(),
+							QuickReply: buildQuickReply(), // quick reply
 						}
 					default:
 						respMsg = messaging_api.TextMessage{
 							Text:       message.Text,
-							QuickReply: buildQuickReply(),
+							QuickReply: buildQuickReply(), // quick reply
 						}
 					}
 
