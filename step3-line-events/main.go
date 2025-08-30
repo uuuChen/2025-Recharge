@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
 	"log"
 	"net/http"
@@ -38,36 +39,53 @@ func main() {
 
 		// ============================================================
 		// 處理收到的 events
+		log.Println("---------------------------------------------------------------")
 		for _, event := range cb.Events {
+			formattedEvent, _ := json.MarshalIndent(event, "", "  ")
+			log.Printf("event: %s", string(formattedEvent))
+
 			switch e := event.(type) {
-			case webhook.MessageEvent:
-
-				var userID, groupID string
-				switch source := e.Source.(type) {
-				case webhook.UserSource: // 來自個人聊天室
-					userID = source.UserId
-				case webhook.GroupSource: // 來自群組聊天室
-					userID = source.UserId
-					groupID = source.GroupId
-				}
-				log.Printf("[Message] GroupID: %+v, UserID: %+v", groupID, userID)
-
-				switch message := e.Message.(type) {
-				case webhook.TextMessageContent:
-					log.Printf("[Message][Text] %+v", message.Text)
-				case webhook.ImageMessageContent:
-					log.Printf("[Message][Image] MessageID: %+v", message.Id)
-				case webhook.AudioMessageContent:
-					log.Printf("[Message][Audio] MessageID: %+v", message.Id)
-				case webhook.LocationMessageContent:
-					log.Printf("[Message][Location] Longitude: %v, Latitude: %v", message.Longitude, message.Latitude)
-				case webhook.StickerMessageContent:
-					log.Printf("[Message][Sticker] PackageID: %v, StickerID: %v", message.PackageId, message.StickerId)
-				}
 			case webhook.FollowEvent:
-				log.Println("[Follow]")
+				log.Printf("[Follow] UserID: %+v", e.Source.(webhook.UserSource).UserId)
 			case webhook.UnfollowEvent:
-				log.Println("[Unfollow]")
+				log.Printf("[Unfollow] UserID: %+v", e.Source.(webhook.UserSource).UserId)
+			case webhook.JoinEvent:
+				log.Printf("[Join] GroupID: %+v", e.Source.(webhook.GroupSource).GroupId)
+			case webhook.LeaveEvent:
+				log.Printf("[Leave] GroupID: %+v", e.Source.(webhook.GroupSource).GroupId)
+			case webhook.MemberJoinedEvent:
+				log.Printf("[MemberJoined] Join users: %+v", e.Joined.Members)
+			case webhook.MemberLeftEvent:
+				log.Printf("[MemberLeft] Left users: %+v", e.Left.Members)
+			case webhook.MessageEvent:
+				log.Printf("[Message]: %+v", e.Message)
+
+				// var userID, groupID string
+				// switch source := e.Source.(type) {
+				// case webhook.UserSource: // 來自個人聊天室
+				// 	userID = source.UserId
+				// case webhook.GroupSource: // 來自群組聊天室
+				// 	userID = source.UserId
+				// 	groupID = source.GroupId
+				// }
+				// log.Printf("[Message] GroupID: %+v, UserID: %+v", groupID, userID)
+
+				// switch message := e.Message.(type) {
+				// case webhook.TextMessageContent:
+				// 	log.Printf("[Message][Text] %+v", message.Text)
+				// case webhook.ImageMessageContent:
+				// 	log.Printf("[Message][Image] MessageID: %+v", message.Id)
+				// case webhook.AudioMessageContent:
+				// 	log.Printf("[Message][Audio] MessageID: %+v", message.Id)
+				// case webhook.VideoMessageContent:
+				// 	log.Printf("[Message][Video] MessageID: %+v", message.Id)
+				// case webhook.FileMessageContent:
+				// 	log.Printf("[Message][File] MessageID: %+v", message.Id)
+				// case webhook.LocationMessageContent:
+				// 	log.Printf("[Message][Location] Longitude: %v, Latitude: %v", message.Longitude, message.Latitude)
+				// case webhook.StickerMessageContent:
+				// 	log.Printf("[Message][Sticker] PackageID: %v, StickerID: %v", message.PackageId, message.StickerId)
+				// }
 			}
 		}
 		// ============================================================
@@ -80,5 +98,4 @@ func main() {
 	}
 }
 
-// 測試 invalid signature:
-// curl http://localhost:8080/callback -H "Content-Type: application/json" -H "x-line-signature: 1234567890" -v
+// 1. message id 可以用來下載 image、audio、video

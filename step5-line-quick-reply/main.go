@@ -152,6 +152,3 @@ func main() {
 		log.Fatal(err)
 	}
 }
-
-// 測試 invalid signature:
-// curl http://localhost:8080/callback -H "Content-Type: application/json" -H "x-line-signature: 1234567890" -v

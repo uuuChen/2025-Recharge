@@ -88,11 +88,29 @@ func main() {
 						ReplyToken: e.ReplyToken,
 						Messages: []messaging_api.MessageInterface{ // 最多 5 則
 							respMsg,
+							respMsg,
+							respMsg,
+							respMsg,
+							respMsg,
 						},
 					})
 					if err != nil {
 						log.Printf("Error replying message: %v", err)
 					}
+
+					// push message
+					// xLineRetryID := uuid.New().String()
+					// _, err = bot.PushMessage(&messaging_api.PushMessageRequest{
+					// 	To: e.Source.(webhook.UserSource).UserId,
+					// 	Messages: []messaging_api.MessageInterface{
+					// 		messaging_api.TextMessage{
+					// 			Text: "Push message",
+					// 		},
+					// 	},
+					// }, xLineRetryID)
+					// if err != nil {
+					// 	log.Printf("Error pushing message: %v", err)
+					// }
 				}
 				// ============================================================
 			}
@@ -106,5 +124,5 @@ func main() {
 	}
 }
 
-// 測試 invalid signature:
-// curl http://localhost:8080/callback -H "Content-Type: application/json" -H "x-line-signature: 1234567890" -v
+// 1. ReplyMessage 最多 5 則
+// 2. ReplyToken 最多使用一次

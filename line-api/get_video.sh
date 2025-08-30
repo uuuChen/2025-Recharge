@@ -11,5 +11,6 @@ if [ -f .env ]; then
 fi
 
 curl -L -H "Authorization: Bearer $LINE_CHANNEL_ACCESS_TOKEN" \
+  -D - \
   "https://api-data.line.me/v2/bot/message/$1/content" \
   -o ./line-api/video-$1.mp4
