@@ -58,7 +58,7 @@ func main() {
 			case webhook.MemberLeftEvent:
 				log.Printf("[MemberLeft] Left users: %+v", e.Left.Members)
 			case webhook.MessageEvent:
-				log.Printf("[Message]: %+v", e.Message)
+				log.Printf("[Message] type: %v", e.Message.GetType())
 
 				// var userID, groupID string
 				// switch source := e.Source.(type) {
@@ -74,7 +74,7 @@ func main() {
 				// case webhook.TextMessageContent:
 				// 	log.Printf("[Message][Text] %+v", message.Text)
 				// case webhook.ImageMessageContent:
-				// 	log.Printf("[Message][Image] MessageID: %+v", message.Id)
+				// 	log.Printf("[Message][Image] MessageID: %+v", message.Id) // message id 可以用來下載 image, audio, video
 				// case webhook.AudioMessageContent:
 				// 	log.Printf("[Message][Audio] MessageID: %+v", message.Id)
 				// case webhook.VideoMessageContent:
