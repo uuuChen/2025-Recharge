@@ -88,10 +88,6 @@ func main() {
 						ReplyToken: e.ReplyToken,
 						Messages: []messaging_api.MessageInterface{ // 最多 5 則
 							respMsg,
-							respMsg,
-							respMsg,
-							respMsg,
-							respMsg,
 						},
 					})
 					if err != nil {
