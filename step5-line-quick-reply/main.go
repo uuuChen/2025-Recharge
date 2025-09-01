@@ -77,6 +77,9 @@ func main() {
 			switch e := event.(type) {
 			case webhook.MessageEvent:
 				switch message := e.Message.(type) {
+				case webhook.LocationMessageContent:
+					b, _ := json.MarshalIndent(e, "", "  ")
+					log.Printf("[Message][Location] %+v", string(b))
 				case webhook.TextMessageContent:
 					log.Printf("[Message][Text] %+v", message.Text)
 
