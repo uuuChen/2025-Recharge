@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
 	"log"
 	"net/http"
@@ -48,6 +49,8 @@ func main() {
 
 		// 處理收到的 events
 		for _, event := range cb.Events {
+			e, _ := json.MarshalIndent(event, "", "  ")
+			log.Printf("[Event] %+v", string(e))
 			switch e := event.(type) {
 			case webhook.MessageEvent:
 				switch message := e.Message.(type) {
@@ -96,9 +99,16 @@ func main() {
 					}
 
 					// push message
+					// var userID string
+					// switch source := e.Source.(type) {
+					// case webhook.UserSource:
+					// 	userID = source.UserId
+					// case webhook.GroupSource:
+					// 	userID = source.UserId
+					// }
 					// xLineRetryID := uuid.New().String()
 					// _, err = bot.PushMessage(&messaging_api.PushMessageRequest{
-					// 	To: e.Source.(webhook.UserSource).UserId,
+					// 	To: userID, // 會發到私人聊天室
 					// 	Messages: []messaging_api.MessageInterface{
 					// 		messaging_api.TextMessage{
 					// 			Text: "Push message",
