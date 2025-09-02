@@ -18,3 +18,5 @@ func main() {
 		log.Fatal(err)
 	}
 }
+
+// curl http://localhost:8080/callback
